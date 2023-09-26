@@ -50,13 +50,21 @@ class _FaceDetectorState extends State<FaceDetectorLocal> {
   final ImagePicker picker = ImagePicker();
   List<XFile> imageFiles = [];
   bool isFaceAlreadyRegistered =false;
-  late final InputImage inputImage;
+  late FaceDetector  faceDetector;
 
-  final options = FaceDetectorOptions(
-      performanceMode: FaceDetectorMode.accurate
-  );
-  final faceDetector = FaceDetector(options: options);
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    late final InputImage inputImage;
 
+    // Declare faceDetector here
+
+    final options = FaceDetectorOptions(
+        performanceMode: FaceDetectorMode.accurate
+    );
+    FaceDetector(options: options);
+  }
 
 
   @override
@@ -121,12 +129,12 @@ class _FaceDetectorState extends State<FaceDetectorLocal> {
   getImageAndCheckFaceIsRegisteredOrNot() async{
 
     try{
+
+
       final XFile? photo = await picker.pickImage(source: ImageSource.camera);
       if(photo!=null){
          final inputImage = InputImage.fromFile( File(photo.path));
-
          final List<Face> faces = await faceDetector.processImage(inputImage);
-
          for (Face face in faces) {
            final Rect boundingBox = face.boundingBox;
 
